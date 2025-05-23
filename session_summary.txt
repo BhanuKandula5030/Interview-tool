@@ -1,7 +1,7 @@
-Total Session Time: 11 seconds
-Eye Gaze Violations: 131
+Total Session Time: 9 seconds
+Eye Gaze Violations: 39
 Head Turn Violations: 0
 No Face Violations: 4
-Time Not Looking at Screen: 262 sec (2314.6%)
-Time with No Face Detected: 0 sec (3.5%)
-Total Cheating Duration: 11 sec (100.0%)
+Time Not Looking at Screen: 7 sec (82.8%)
+Time with No Face Detected: 0 sec (2.3%)
+Total Cheating Duration: 8 sec (85.1%)
