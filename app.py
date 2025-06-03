@@ -5,11 +5,26 @@ import mediapipe as mp
 import tempfile
 import os
 from datetime import datetime, timedelta
+import time
 
-st.set_page_config(page_title="Interview Monitoring Tool", layout="centered")
-st.title("🎥 Hey Interviewer! Please Upload the Interview Recording")
+# Page config and cartoon image
+st.set_page_config(page_title="Interview Monitoring Tool", layout="wide")
 
-uploaded_file = st.file_uploader("Upload Video File", type=["mp4", "mkv", "avi"])
+left_col, right_col = st.columns([1, 3])
+with left_col:
+    st.image("cartoon_boy.png", use_container_width=True)
+
+with right_col:
+    animated_text = "Hey Interviewer! Please Upload the Interview Recording"
+    placeholder = st.empty()
+    words = animated_text.split()
+    displayed = ""
+    for word in words:
+        displayed += word + " "
+        placeholder.markdown(f"### {displayed}")
+        time.sleep(0.3)
+
+    uploaded_file = st.file_uploader("Upload Video File", type=["mp4", "mkv", "avi"])
 
 def analyze_video(video_path, output_dir):
     cheat_log_path = os.path.join(output_dir, "cheat_log.txt")
@@ -146,7 +161,7 @@ def analyze_video(video_path, output_dir):
                       f"({round((total_gaze_violation_time / total_session_duration) * 100, 1)}%)\n")
         summary.write(f"Time with No Face Detected: {round(total_face_absence_time)} sec "
                       f"({round((total_face_absence_time / total_session_duration) * 100, 1)}%)\n")
-        summary.write(f"Total Cheating Duration: {round(min(total_gaze_violation_time + total_face_absence_time, total_session_duration))} sec "
+        summary.write(f"Total Focus Drop Duration: {round(min(total_gaze_violation_time + total_face_absence_time, total_session_duration))} sec "
                       f"({round(min(total_gaze_violation_time + total_face_absence_time, total_session_duration) / total_session_duration * 100, 1)}%)\n")
 
     return session_summary_path, cheat_log_path, analyzed_video_path
@@ -169,7 +184,7 @@ if uploaded_file is not None:
 
     st.subheader("📁 Download Results")
     with open(cheat_log_path, "rb") as f:
-        st.download_button("Download Cheat Log", f, file_name="cheat_log.txt")
+        st.download_button("Download Focus Log", f, file_name="focus_log.txt")
 
     with open(summary_path, "rb") as f:
         st.download_button("Download Session Summary", f, file_name="session_summary.txt")
